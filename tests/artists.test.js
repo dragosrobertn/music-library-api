@@ -27,18 +27,46 @@ describe('/artists', () => {
         genre: 'Rock',
       });
 
-       await expect(response.status).to.equal(201);
-       expect(response.body.name).to.equal('Tame Impala');
+        await expect(response.status).to.equal(201);
+        expect(response.body.name).to.equal('Tame Impala');
 
 
       const insertedArtistRecords = await Artist.findByPk(response.body.id, { raw: true });
       expect(insertedArtistRecords.name).to.equal('Tame Impala');
-      expect(insertedArtistRecords.genre).to.equal('Rock');
+       expect(insertedArtistRecords.genre).to.equal('Rock');
 
+   });
+  });
 
-
-      
+  describe('with artists in the database', () => {
+    let artists;
+    beforeEach((done) => {
+      Promise.all([
+        Artist.create({ name: 'Tame Impala', genre: 'Rock' }),
+        Artist.create({ name: 'Kylie Minogue', genre: 'Pop' }),
+        Artist.create({ name: 'Dave Brubeck', genre: 'Jazz' }),
+      ]).then((documents) => {
+        artists = documents;
+        done();
+      });
     });
+
+    describe('GET /artists', () => {
+      it('gets all artist records', (done) => {
+        request(app)
+          .get('/artists')
+          .then((res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.length).to.equal(3);
+            res.body.forEach((artist) => {
+              const expected = artists.find((a) => a.id === artist.id);
+              expect(artist.name).to.equal(expected.name);
+              expect(artist.genre).to.equal(expected.genre);
+            });
+            done();
+          });
+      });
+    });
+    
   });
 });
-
