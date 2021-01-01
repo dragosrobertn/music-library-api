@@ -7,6 +7,8 @@ app.use(express.json());
 
 app.post('/artists',  artistControllers.create);
 
+app.get('/artists', artistControllers.list);
+
     
 
 
