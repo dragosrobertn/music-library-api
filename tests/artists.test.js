@@ -84,16 +84,32 @@ describe("/artists", () => {
             const artist = artists[0];
             request(app)
               .patch(`/artists/${artist.id}`)
-              .send({ genre: "Psychedelic Rock" })
+              .send({ genre: "Reggae" })
               .then((res) => {
                 expect(res.status).to.equal(200);
                 Artist.findByPk(artist.id, { raw: true }).then(
                   (updatedArtist) => {
-                    expect(updatedArtist.genre).to.equal("Psychedelic Rock");
+                    expect(updatedArtist.genre).to.equal("Reggae");
                     done();
-                  }
-                );
+                  });
               });
+
+            describe("PATCH /artists/:id", () => {
+              it("updates artist name by id", (done) => {
+                const artist = artists[0];
+                request(app)
+                  .patch(`/artists/${artist.id}`)
+                  .send({ name: "Bob Marley" })
+                  .then((res) => {
+                    expect(res.status).to.equal(200);
+                    Artist.findByPk(artist.id, { raw: true }).then(
+                      (updatedArtist) => {
+                        expect(updatedArtist.name).to.equal("Bob Marley");
+                        done();
+                      });
+                  });
+              });
+            });
           });
         });
       });
