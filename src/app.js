@@ -13,4 +13,6 @@ app.get('/artists/:artistId', artistControllers.getArtistById);
 
 app.patch('/artists/:id', artistControllers.update);
 
+app.delete('/artists/:id', artistControllers.destroy);
+
 module.exports = app;

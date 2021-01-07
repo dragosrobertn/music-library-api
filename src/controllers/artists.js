@@ -32,3 +32,17 @@ exports.update = (req, res) => {
     }
   });
 };
+
+exports.destroy = (req, res) => {
+  const { id } = req.params;
+
+  Artist.destroy( { where: {id} }).then((numberofrows) => {
+    if (!numberofrows) {
+      res.status(404).json({ error: "The artist could not be found." });
+    } else {
+      Artist.findByPk(id).then((artist) => {
+        res.status(204).json(artist);
+      });
+    }
+  });
+};

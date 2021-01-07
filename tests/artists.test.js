@@ -78,6 +78,8 @@ describe("/artists", () => {
               done();
             });
         });
+      });
+
 
         describe("PATCH /artists/:id", () => {
           it("updates artist genre by id", (done) => {
@@ -91,28 +93,48 @@ describe("/artists", () => {
                   (updatedArtist) => {
                     expect(updatedArtist.genre).to.equal("Reggae");
                     done();
-                  });
+                  }
+                );
               });
 
-            describe("PATCH /artists/:id", () => {
-              it("updates artist name by id", (done) => {
-                const artist = artists[0];
-                request(app)
-                  .patch(`/artists/${artist.id}`)
-                  .send({ name: "Bob Marley" })
-                  .then((res) => {
-                    expect(res.status).to.equal(200);
-                    Artist.findByPk(artist.id, { raw: true }).then(
-                      (updatedArtist) => {
-                        expect(updatedArtist.name).to.equal("Bob Marley");
-                        done();
-                      });
-                  });
+            
+          });
+          it("updates artist name by id", (done) => {
+            const artist = artists[0];
+            request(app)
+              .patch(`/artists/${artist.id}`)
+              .send({ name: "Bob Marley" })
+              .then((res) => {
+                expect(res.status).to.equal(200);
+                Artist.findByPk(artist.id, { raw: true }).then(
+                  (updatedArtist) => {
+                    expect(updatedArtist.name).to.equal("Bob Marley");
+                    done();
+                  }
+                );
               });
             });
-          });
         });
+        
+          describe("DELETE /artists/:artistId", () => {
+            it("deletes artist record by id", (done) => {
+              const artist = artists[0];
+              request(app)
+                .delete(`/artists/${artist.id}`)
+                .then((res) => {
+                  expect(res.status).to.equal(204);
+                  Artist.findByPk(artist.id, { raw: true }).then(
+                    (updatedArtist) => {
+                      expect(updatedArtist).to.equal(null);
+                      done();
+                    }
+                  );
+                });
+            });
+          });
       });
     });
   });
-});
+
+
+
