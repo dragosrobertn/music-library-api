@@ -18,6 +18,6 @@ app.delete('/artists/:id', artistControllers.destroy);
 
 app.post('/artists/:artistId/albums', albumControllers.create);
 
-app.post('/artists/:artistId/albums', albumControllers.getAlbumById);
+app.post('/artists/:artistId/albums', albumControllers.list);
 
 module.exports = app;
