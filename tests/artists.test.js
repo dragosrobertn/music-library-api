@@ -23,18 +23,18 @@ describe("/artists", () => {
   describe("POST /artists", async () => {
     it("creates a new artist in the database", async () => {
       const response = await request(app).post("/artists").send({
-        name: "Tame Impala",
-        genre: "Rock",
+        name: "Sinach",
+        genre: "Worship",
       });
 
       await expect(response.status).to.equal(201);
-      expect(response.body.name).to.equal("Tame Impala");
+      expect(response.body.name).to.equal("Sinach");
 
       const insertedArtistRecords = await Artist.findByPk(response.body.id, {
         raw: true,
       });
-      expect(insertedArtistRecords.name).to.equal("Tame Impala");
-      expect(insertedArtistRecords.genre).to.equal("Rock");
+      expect(insertedArtistRecords.name).to.equal("Sinach");
+      expect(insertedArtistRecords.genre).to.equal("Worship");
     });
   });
 
@@ -42,9 +42,9 @@ describe("/artists", () => {
     let artists;
     beforeEach((done) => {
       Promise.all([
-        Artist.create({ name: "Tame Impala", genre: "Rock" }),
-        Artist.create({ name: "Kylie Minogue", genre: "Pop" }),
-        Artist.create({ name: "Dave Brubeck", genre: "Jazz" }),
+        Artist.create({ name: "Sinach", genre: "Worship" }),
+        Artist.create({ name: "Matt Redman", genre: "Worship" }),
+        Artist.create({ name: "Lecrae", genre: "Hip-Hop" }),
       ]).then((documents) => {
         artists = documents;
         done();
@@ -80,61 +80,55 @@ describe("/artists", () => {
         });
       });
 
-
-        describe("PATCH /artists/:id", () => {
-          it("updates artist genre by id", (done) => {
-            const artist = artists[0];
-            request(app)
-              .patch(`/artists/${artist.id}`)
-              .send({ genre: "Reggae" })
-              .then((res) => {
-                expect(res.status).to.equal(200);
-                Artist.findByPk(artist.id, { raw: true }).then(
-                  (updatedArtist) => {
-                    expect(updatedArtist.genre).to.equal("Reggae");
-                    done();
-                  }
-                );
-              });
-
-            
-          });
-          it("updates artist name by id", (done) => {
-            const artist = artists[0];
-            request(app)
-              .patch(`/artists/${artist.id}`)
-              .send({ name: "Bob Marley" })
-              .then((res) => {
-                expect(res.status).to.equal(200);
-                Artist.findByPk(artist.id, { raw: true }).then(
-                  (updatedArtist) => {
-                    expect(updatedArtist.name).to.equal("Bob Marley");
-                    done();
-                  }
-                );
-              });
+      describe("PATCH /artists/:id", () => {
+        it("updates artist genre by id", (done) => {
+          const artist = artists[0];
+          request(app)
+            .patch(`/artists/${artist.id}`)
+            .send({ genre: "Christian Hip-Hop" })
+            .then((res) => {
+              expect(res.status).to.equal(200);
+              Artist.findByPk(artist.id, { raw: true }).then(
+                (updatedArtist) => {
+                  expect(updatedArtist.genre).to.equal("Christian Hip-Hop");
+                  done();
+                }
+              );
             });
         });
-        
-          describe("DELETE /artists/:artistId", () => {
-            it("deletes artist record by id", (done) => {
-              const artist = artists[0];
-              request(app)
-                .delete(`/artists/${artist.id}`)
-                .then((res) => {
-                  expect(res.status).to.equal(204);
-                  Artist.findByPk(artist.id, { raw: true }).then(
-                    (updatedArtist) => {
-                      expect(updatedArtist).to.equal(null);
-                      done();
-                    }
-                  );
-                });
+        it("updates artist name by id", (done) => {
+          const artist = artists[0];
+          request(app)
+            .patch(`/artists/${artist.id}`)
+            .send({ name: "Hillsong" })
+            .then((res) => {
+              expect(res.status).to.equal(200);
+              Artist.findByPk(artist.id, { raw: true }).then(
+                (updatedArtist) => {
+                  expect(updatedArtist.name).to.equal("Hillsong");
+                  done();
+                }
+              );
             });
-          });
+        });
+      });
+
+      describe("DELETE /artists/:artistId", () => {
+        it("deletes artist record by id", (done) => {
+          const artist = artists[0];
+          request(app)
+            .delete(`/artists/${artist.id}`)
+            .then((res) => {
+              expect(res.status).to.equal(204);
+              Artist.findByPk(artist.id, { raw: true }).then(
+                (updatedArtist) => {
+                  expect(updatedArtist).to.equal(null);
+                  done();
+                }
+              );
+            });
+        });
       });
     });
   });
-
-
-
+});

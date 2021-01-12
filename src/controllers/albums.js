@@ -19,6 +19,7 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
+
   Album.findAll({
     include: [
       {
@@ -28,5 +29,16 @@ exports.list = (req, res) => {
     ],
   }).then((albums) => {
     res.status(200).json(albums);
+  });
+};
+
+exports.getAlbumById = (req, res) => {
+  const { albumId } = req.params;
+  Album.findByPk(albumId).then((album) => {
+    if (!album) {
+      res.status(400).json({ error: "The album could not be found." });
+    } else {
+      res.status(200).json(album);
+    }
   });
 };
