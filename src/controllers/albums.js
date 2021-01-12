@@ -33,12 +33,40 @@ exports.list = (req, res) => {
 };
 
 exports.getAlbumById = (req, res) => {
-  const { albumId } = req.params;
+const { albumId } = req.params;
   Album.findByPk(albumId).then((album) => {
     if (!album) {
       res.status(400).json({ error: "The album could not be found." });
     } else {
       res.status(200).json(album);
+
+    }
+  });
+};
+
+exports.update = (req, res) => {
+  const { id } = req.params;
+  Album.update(req.body, { where: { id } }).then(([updatedAlbum]) => {
+    if (!updatedAlbum) {
+      res.status(400).json({ error: "The album could not be found." });
+    } else {
+      Album.findByPk(id).then((album) => {
+        res.status(200).json(album);
+      });
+    }
+  });
+};
+
+exports.destroy = (req, res) => {
+  const { id } = req.params;
+
+  Album.destroy( { where: {id} }).then((numberofrows) => {
+    if (!numberofrows) {
+      res.status(404).json({ error: "The album could not be found." });
+    } else {
+      Album.findByPk(id).then((album) => {
+        res.status(204).json(album);
+      });
     }
   });
 };
