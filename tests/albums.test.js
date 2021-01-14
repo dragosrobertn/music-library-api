@@ -27,7 +27,7 @@ describe("/albums", () => {
       console.log(err);
     }
   });
-
+  
   describe("POST /artists/:artistId/albums", () => {
     it("creates a new album for a given artist", (done) => {
       request(app)
@@ -45,6 +45,7 @@ describe("/albums", () => {
               expect(album.year).to.equal(2011);
               expect(album.artistId).to.equal(artist.id);
               done();
+              
             })
             .catch((error) => done(error));
         })
