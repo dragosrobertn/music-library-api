@@ -3,6 +3,8 @@ const request = require("supertest");
 const { Artist } = require("../src/models");
 const app = require("../src/app");
 
+
+
 describe("/artists", () => {
   before(async () => {
     try {

@@ -1,5 +1,6 @@
 const artistControllers = require('./controllers/artists');
 const albumControllers = require('./controllers/albums')
+const songControllers = require('./controllers/songs');
 const express = require('express');
 const app = express();
 app.use(express.json());
@@ -28,7 +29,9 @@ app.patch('/albums/:id', albumControllers.update);
 
 app.delete('/albums/:id', albumControllers.destroy);
 
-app.post('/album/albumId/song', albumControllers.create);
+app.post('/albums/:albumId/songs', songControllers.create);
+
+app.post('/albums/:albumId/songs', songControllers.list);
 
 
 
