@@ -119,7 +119,7 @@ describe("/albums", () => {
           });
         });
         describe("PATCH /albums/:id", () => {
-          it("updates album genre by id", (done) => {
+          it("updates album name by id", (done) => {
             const album = albums[0];
             request(app)
               .patch(`/albums/${album.id}`)
