@@ -27,7 +27,7 @@ describe("/albums", () => {
       console.log(err);
     }
   });
-  
+
   describe("POST /artists/:artistId/albums", () => {
     it("creates a new album for a given artist", (done) => {
       request(app)
@@ -45,7 +45,6 @@ describe("/albums", () => {
               expect(album.year).to.equal(2011);
               expect(album.artistId).to.equal(artist.id);
               done();
-              
             })
             .catch((error) => done(error));
         })
@@ -128,10 +127,10 @@ describe("/albums", () => {
                 expect(res.status).to.equal(200);
                 Album.findByPk(album.id, { raw: true }).then((updatedAlbum) => {
                   expect(updatedAlbum.name).to.equal("The Name Of Jesus");
-                  done().catch((error) => done(error));
+                  done();
                 });
               })
-              .catch((error) => done(error));
+              
           });
           describe("DELETE /albums/:albumId", () => {
             it("deletes album record by id", (done) => {
@@ -144,8 +143,8 @@ describe("/albums", () => {
                     (updatedAlbum) => {
                       expect(updatedAlbum).to.equal(null);
                       done();
-                    }
-                  );
+                    });
+                  
                 });
             });
           });

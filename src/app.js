@@ -33,11 +33,18 @@ app.post('/albums/:albumId/songs', songControllers.create);
 
 app.get('/songs', songControllers.list);
 
-app.get('/songs/:songId', songControllers.getSongById);
+// app.get('/artists/:artistId', artistControllers.getArtistById);
 
-app.patch('/songs/:id', songControllers.update);
+// app.patch('/artists/:id', artistControllers.update);
 
-app.delete('/songs/:id', songControllers.destroy);
+// app.delete('/artists/:id', artistControllers.destroy);
+
+
+
+
+
+
+
 
 
 
